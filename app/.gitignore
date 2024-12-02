@@ -1,0 +1,51 @@
+# Python artifacts
+*.py[cod]
+__pycache__/
+*.pyc
+*.pyo
+env/
+.env
+
+# PostgreSQL files
+pgdb/
+pgdb
+pg_control
+pg_log/
+pg_xlog/
+pg_replslot/
+pg_snapshots/
+pg_subtrans/
+pg_tblspc/
+pg_twophase/
+pg_wal/
+postgresql.auto.conf
+postgresql.conf
+postgresql.log
+
+# Docker
+*.env
+*.env.*
+.dockerignore
+Dockerfile
+docker-compose.yml
+logs/
+tmp/
+*.sock
+.volumes/
+
+# Node.js
+node_modules/
+dist/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Other
+*.log
+*.bak
