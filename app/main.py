@@ -6,14 +6,14 @@ from core.routes import router as blog_router
 
 app = FastAPI()
 
-# @app.on_event("startup")
-# async def startup_event():
-#     # Cədvəlləri yaradın
-#     async with engine.begin() as conn:
-#         await conn.run_sync(Blog.metadata.create_all)
+@app.on_event("startup")
+async def startup_event():
+    # Cədvəlləri yaradın
+    async with engine.begin() as conn:
+        await conn.run_sync(Blog.metadata.create_all)
     
-#     # Admin modellərini qeydiyyatdan keçirin
-#     setup_admin_models(app)
+    # Admin modellərini qeydiyyatdan keçirin
+    setup_admin_models(app)
 
 @app.get("/")
 async def root():
