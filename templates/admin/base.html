@@ -1,0 +1,10 @@
+{% extends 'admin/base.html' %}
+
+{% block extra_js %}
+<script>
+    console.log('This is an extra JS block');
+    
+</script>
+{{ super() }}
+<script src="{{ url_for('static', path='js/custom.js') }}"></script>
+{% endblock %}

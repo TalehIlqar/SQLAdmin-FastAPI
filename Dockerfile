@@ -14,5 +14,9 @@ COPY requirements.txt .
 # Asılılıqları quraşdırın
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Static və templates qovluqlarını daxil edin
+COPY ./static /code/static
+COPY ./templates /code/templates
+
 # Layihə fayllarını konteynerə əlavə edin
 COPY . .

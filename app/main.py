@@ -1,10 +1,14 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+
 from app.utils.setup_admin import setup_admin_models  # setup_admin.py faylından funksiyanı idxal edin
 from app.database import engine
 from core.models import Blog
 from core.routes import router as blog_router
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.on_event("startup")
 async def startup_event():
