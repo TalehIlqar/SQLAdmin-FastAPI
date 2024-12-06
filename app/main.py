@@ -5,8 +5,11 @@ from app.utils.setup_admin import setup_admin_models  # setup_admin.py faylında
 from app.database import engine
 from core.models import Blog
 from core.routes import router as blog_router
+from app.middleware import AuthenticationMiddleware
 
 app = FastAPI()
+
+app.add_middleware(AuthenticationMiddleware)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 

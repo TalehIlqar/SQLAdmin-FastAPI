@@ -32,3 +32,5 @@ class Group(Base):
     name = Column(String, unique=True, nullable=False)
 
     users = relationship("User", secondary=user_groups, back_populates="groups")
+    permissions = Column(String, nullable=True)  # Komma ilə ayrılmış icazələr
+

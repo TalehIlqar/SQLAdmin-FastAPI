@@ -4,6 +4,7 @@ WORKDIR /code
 
 # Lazımi alətləri quraşdırın
 RUN apt-get update && apt-get install -y git gcc python3-dev libpq-dev && apt-get clean
+RUN pip install --no-cache-dir itsdangerous
 
 # Pip-in ən son versiyasını quraşdırın
 RUN pip install --upgrade pip
