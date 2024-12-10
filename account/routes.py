@@ -56,7 +56,7 @@ async def refresh_token(request: Request):
         payload = jwt.decode(refresh_token, SECRET_KEY, algorithms=[ALGORITHM])
         username = payload.get("sub")
         new_access_token = jwt.encode(
-            {"sub": username, "exp": datetime.utcnow() + timedelta(minutes=30)},
+            {"sub": username, "exp": datetime.utcnow() + timedelta(minutes=1)},
             SECRET_KEY,
             algorithm=ALGORITHM,
         )

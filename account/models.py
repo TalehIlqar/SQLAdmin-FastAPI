@@ -20,7 +20,7 @@ class User(Base):
     last_name = Column(String, nullable=True)
     password = Column(String, nullable=False)
     is_staff = Column(Boolean, default=False)
-    is_superuser = Column(Boolean, default=False)
+    is_superuser = Column(Boolean, default=True)
     is_active = Column(Boolean, default=True)
 
     groups = relationship("Group", secondary=user_groups, back_populates="users")
