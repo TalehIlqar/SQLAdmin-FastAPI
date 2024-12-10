@@ -3,9 +3,10 @@ from fastapi.staticfiles import StaticFiles
 
 from app.utils.setup_admin import setup_admin_models  # setup_admin.py faylından funksiyanı idxal edin
 from app.database import engine
-from core.models import Blog
-from core.routes import router as blog_router
 from app.middleware import AuthenticationMiddleware
+from core.routes import router as blog_router
+from core.models import Blog
+from account.routes import auth_router
 
 app = FastAPI()
 
@@ -27,3 +28,4 @@ async def root():
     return {"message": "Welcome to the FastAPI Admin Panel"}
 
 app.include_router(blog_router, prefix="/api", tags=["Blogs"])
+app.include_router(auth_router, prefix="/api", tags=["Authentication"])

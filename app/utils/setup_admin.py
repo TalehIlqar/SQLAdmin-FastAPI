@@ -12,6 +12,7 @@ def setup_admin_models(app: FastAPI):
     auth_backend = AdminAuthBackend(secret_key="your-secret-key")  # Auth backend yaradın
 
     admin = Admin(
+        title="Hyundai Admin Panel",
         app=app,
         engine=engine,
         authentication_backend=auth_backend,  # Admin auth backend əlavə edin

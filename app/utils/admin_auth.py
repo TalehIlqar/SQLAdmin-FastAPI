@@ -1,7 +1,7 @@
 from starlette.requests import Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
-from core.models import User
+from account.models import User
 from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
