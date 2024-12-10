@@ -19,21 +19,39 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
 
 # class AuthenticationMiddleware(BaseHTTPMiddleware):
 #     async def dispatch(self, request: Request, call_next):
-#         if request.url.path.startswith("/admin") and request.url.path != "/login":
-#             token = request.cookies.get("access_token")
+#         # Yalnız admin panel yolları üçün yoxlama
+#         if request.url.path.startswith("/admin") and request.url.path != "/admin/login":
+#             token = request.cookies.get("access_token")  # Cookie-də tokeni yoxlayırıq
 #             if not token:
-#                 return RedirectResponse(url="/login")
+#                 print("Access token not found. Redirecting to /admin/login")
+#                 return RedirectResponse(url="/admin/login")  # Token yoxdursa, yönləndirmə
+
 #             try:
+#                 # Token doğrulanır
 #                 payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
 #                 username = payload.get("sub")
-#                 if username is None:
-#                     raise HTTPException(status_code=403, detail="Invalid credentials")
+#                 if not username:
+#                     print("Username not found in token. Redirecting to /admin/login")
+#                     return RedirectResponse(url="/admin/login")
+
+#                 # İstifadəçinin superuser olub-olmadığını yoxlayırıq
 #                 async with async_session() as session:
 #                     query = select(User).where(User.username == username)
 #                     result = await session.execute(query)
 #                     user = result.scalar_one_or_none()
+
 #                     if not user or not user.is_superuser:
-#                         raise HTTPException(status_code=403, detail="Permission denied")
-#             except JWTError:
-#                 return RedirectResponse(url="/login")
+#                         print("User is not superuser or does not exist.")
+#                         return RedirectResponse(url="/admin/login")
+
+#                     # Əgər hər şey qaydasındadırsa, növbəti middleware və ya endpointə keçid
+#                     print(f"Authenticated user: {user.username}")
+#             except jwt.ExpiredSignatureError:
+#                 print("Access token has expired. Redirecting to /admin/login")
+#                 return RedirectResponse(url="/admin/login")
+#             except JWTError as e:
+#                 print(f"Token error: {e}. Redirecting to /admin/login")
+#                 return RedirectResponse(url="/admin/login")
+
+#         # Başqa yollar üçün yoxlama olmadan davam et
 #         return await call_next(request)
