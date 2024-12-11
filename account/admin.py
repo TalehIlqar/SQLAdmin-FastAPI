@@ -1,7 +1,7 @@
 from sqladmin import ModelView
 from account.models import User, Group
 
-# User modeli üçün admin panel görünüşü
+
 class UserAdmin(ModelView, model=User):
     column_list = [User.id, User.username, User.email, User.is_active, User.is_staff, User.is_superuser]
     column_labels = {
@@ -15,7 +15,7 @@ class UserAdmin(ModelView, model=User):
     form_excluded_columns = ["password"]  # Şifrə admin paneldə göstərilməyəcək
     page_size = 10
 
-# Group modeli üçün admin panel görünüşü
+
 class GroupAdmin(ModelView, model=Group):
     column_list = [Group.id, Group.name]
     column_labels = {

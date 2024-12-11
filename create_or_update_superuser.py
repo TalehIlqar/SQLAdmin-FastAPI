@@ -1,7 +1,7 @@
 import asyncio
 from sqlalchemy.future import select
 from account.models import User
-from app.utils.password_utils import hash_password
+from account.utils.password_utils import hash_password
 from app.database import async_session
 
 async def create_or_update_superuser(username: str, email: str, password: str):
