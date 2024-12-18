@@ -4,7 +4,8 @@ from app.database import engine
 from core.admin import setup_core_admin
 from account.admin import setup_account_admin
 from account.auth_backend import AdminAuthBackend 
-from app.settings import SECRET_KEY
+# from app.settings import SECRET_KEY
+SECRET_KEY = "your-secret-key"
 
 def setup_admin_models(app: FastAPI):
     """

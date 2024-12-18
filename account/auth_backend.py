@@ -7,9 +7,9 @@ from datetime import datetime, timedelta
 from account.models import User
 from app.database import async_session
 from account.utils.password_utils import verify_password
-from app.settings import ALGORITHM
-# SECRET_KEY = "your-secret-key"
-# ALGORITHM = "HS256"
+# from app.settings import ALGORITHM
+SECRET_KEY = "your-secret-key"
+ALGORITHM = "HS256"
 
 
 class AdminAuthBackend(AuthenticationBackend):
@@ -30,7 +30,7 @@ class AdminAuthBackend(AuthenticationBackend):
             result = await session.execute(query)
             user = result.scalar_one_or_none()
             
-            if user and user.is_superuser and verify_password(password, user.password):
+            if user and (user.is_superuser or user.is_staff) and verify_password(password, user.password):
                 # Tokenlər yaradılır
                 access_token = jwt.encode(
                     {"sub": username, "exp": datetime.utcnow() + timedelta(minutes=30)},
@@ -47,6 +47,7 @@ class AdminAuthBackend(AuthenticationBackend):
                     {
                         "access_token": access_token,
                         "refresh_token": refresh_token,
+                        "user_id": user.id,
                     }
                 )
                 return True
@@ -81,8 +82,8 @@ class AdminAuthBackend(AuthenticationBackend):
                 result = await session.execute(query)
                 user = result.scalar_one_or_none()
 
-                if user and user.is_superuser:
-                    print(f"Authenticated user: {username}")
+                if user and (user.is_superuser or user.is_staff):
+
                     return True
                 
         except jwt.ExpiredSignatureError:
@@ -97,7 +98,8 @@ class AdminAuthBackend(AuthenticationBackend):
                     result = await session.execute(query)
                     user = result.scalar_one_or_none()
 
-                    if user and user.is_superuser:
+                    if user and (user.is_superuser or user.is_staff):
+
                         # Yeni access token yaradılır
                         new_access_token = jwt.encode(
                             {"sub": username, "exp": datetime.utcnow() + timedelta(minutes=30)},

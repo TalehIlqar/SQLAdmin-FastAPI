@@ -1,28 +1,12 @@
 from sqladmin import ModelView
+from sqlalchemy.future import select
+
 from core.models import Blog
 
-class BlogAdmin(ModelView, model=Blog):
-    pass
-    """
-    Blog modelini admin paneldə idarə etmək üçün.
-    # """
-    # column_list = [Blog.id, Blog.title, Blog.description, Blog.created_at]
-    # column_labels = {
-    #     "id": "ID",
-    #     "title": "Başlıq",
-    #     "description": "Təsvir",
-    #     "created_at": "Yaradılma Tarixi"
-    # }
-    # column_searchable_list = ["title", "description"]
-    # form_widget_args = {
-    #     "created_at": {"readonly": True},
-    # }
-    # page_size = 10
 
-    # async def on_model_change(self, data, model, is_created):
-    #     if len(data["title"]) < 5:
-    #         raise ValueError("Başlıq ən azı 5 simvol olmalıdır.")
-    #     return super().on_model_change(data, model, is_created)
+
+class BlogAdmin(ModelView, model=Blog):
+    column_list = ["id", "title", "description", "created_at"]
 
 def setup_core_admin(admin):
     """

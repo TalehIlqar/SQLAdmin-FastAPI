@@ -4,7 +4,8 @@ from fastapi.staticfiles import StaticFiles
 from app.utils.setup_admin import setup_admin_models
 from app.database import engine
 from core.routes import router as blog_router
-from core.models import Blog
+# from core.models import Blog
+from app.database import Base
 
 app = FastAPI()
 
@@ -14,7 +15,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 async def startup_event():
     # Cədvəlləri yaradın
     async with engine.begin() as conn:
-        await conn.run_sync(Blog.metadata.create_all)
+        await conn.run_sync(Base.metadata.create_all)
     
     setup_admin_models(app)
 

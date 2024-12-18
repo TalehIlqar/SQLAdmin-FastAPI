@@ -1,31 +1,44 @@
 from sqladmin import ModelView
-from account.models import User, Group
+from .models import User, Group, Permission
 
 
 class UserAdmin(ModelView, model=User):
-    column_list = [User.id, User.username, User.email, User.is_active, User.is_staff, User.is_superuser]
-    column_labels = {
-        "id": "ID",
-        "username": "İstifadəçi Adı",
-        "email": "E-poçt",
-        "is_active": "Aktivdir",
-        "is_staff": "İşçi",
-        "is_superuser": "Superuser"
+    column_list = ["id", "username", "email", "is_active", "is_staff", "groups", "user_permissions"]
+    form_excluded_columns = ["password"]
+
+    form_args = {
+        "groups": {
+            "label": "Groups",
+            "query_factory": lambda: Group.query.all(),
+            "widget": "selectmultiple",
+        },
+        "user_permissions": {
+            "label": "User Permissions",
+            "query_factory": lambda: Permission.query.all(),
+            "widget": "selectmultiple",
+        },
     }
-    form_excluded_columns = ["password"]  # Şifrə admin paneldə göstərilməyəcək
-    page_size = 10
 
 
 class GroupAdmin(ModelView, model=Group):
-    column_list = [Group.id, Group.name]
-    column_labels = {
-        "id": "ID",
-        "name": "Qrup Adı",
+    column_list = ["id", "name", "permissions"]
+    form_args = {
+        "permissions": {
+            "label": "Permissions",
+            "query_factory": lambda: Permission.query.all(),
+            "widget": "selectmultiple",
+        },
     }
+
+
+class PermissionAdmin(ModelView, model=Permission):
+    column_list = ["id", "name", "codename"]
+
 
 def setup_account_admin(admin):
     """
     Account tətbiqi üçün admin modellərini qeydiyyatdan keçirmək üçün funksiya.
     """
     admin.add_view(UserAdmin)
-    admin.add_view(GroupAdmin)
+    admin.add_view(PermissionAdmin)
+
